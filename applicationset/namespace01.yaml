@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: namespace01
+  namespace: openshift-gitops
+spec:
+  generators:
+    - clusterDecisionResource:
+        configMapRef: acm-placement
+        labelSelector:
+          matchLabels:
+            cluster.open-cluster-management.io/placement: namespace01-placement
+        requeueAfterSeconds: 180
+  template:
+    metadata:
+      name: 'namespace01-{{name}}'
+    spec:
+      destination:
+        namespace: namespace01
+        server: '{{server}}'
+      project: default
+      sources:
+        - path: gitops-namespace/namespace01
+          repoURL: 'https://github.com/davmartini/naas-openshift.git'
+          targetRevision: main
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - PruneLast=true
+---
+apiVersion: cluster.open-cluster-management.io/v1beta1
+kind: Placement
+metadata:
+  name: namespace01-placement
+  namespace: openshift-gitops
+spec:
+  clusterSets:
+    - managed-clusters
+  numberOfClusters: 1
+  predicates:
+    - requiredClusterSelector:
+        labelSelector:
+          matchExpressions:
+            - key: name
+              operator: In
+              values:
+                - hcp01
