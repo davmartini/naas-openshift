@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  annotations:
+    openshift.io/description: Namespace automaticaly created by NaaS team
+  name: template
