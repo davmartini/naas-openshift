@@ -42,5 +42,5 @@ patches:
       path: /spec/hard/requests.memory
       value: 12
 
-bases:
-- ../base
+resources:
+- ../resources

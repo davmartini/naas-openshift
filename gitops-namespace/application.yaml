@@ -11,3 +11,31 @@ spec:
     path: gitops-namespace/namespace01
   destination:
     server: https://kubernetes.default.svc
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespace02
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/davmartini/naas-openshift.git
+    targetRevision: HEAD
+    path: gitops-namespace/namespace02
+  destination:
+    server: https://kubernetes.default.svc
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespace03
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/davmartini/naas-openshift.git
+    targetRevision: HEAD
+    path: gitops-namespace/namespace03
+  destination:
+    server: https://kubernetes.default.svc
