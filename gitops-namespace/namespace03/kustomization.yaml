@@ -43,4 +43,4 @@ patches:
       value: 12
 
 resources:
-- ../resources
+- ../base
